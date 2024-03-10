@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:wordle/components/tile.dart';
 
 import '../animations/bounce.dart';
+import '../animations/dance.dart';
 import '../providers/controller.dart';
 
 class Grid extends StatelessWidget {
@@ -25,16 +26,31 @@ class Grid extends StatelessWidget {
           return Consumer<Controller>(
             builder: (_, notifier, __) {
               bool animate = false;
+              bool animateDance = false;
+              int danceDelay = 1600;
               if (index == notifier.currentTile - 1 &&
                   !notifier.isBackOrEnter) {
-                print('index $index current ${notifier.currentTile}');
                 animate = true;
               }
-              return Bounce(
-                  animate: animate,
-                  child: Tile(
-                    index: index,
-                  ));
+              if (notifier.gameWon) {
+                for (int i = notifier.tilesEntered.length - 5;
+                    i < notifier.tilesEntered.length;
+                    i++) {
+                  if (index == i) {
+                    animateDance = true;
+                    danceDelay += 150 * (i - ((notifier.currentRow - 1) * 5));
+                  }
+                }
+              }
+              return Dance(
+                delay: danceDelay,
+                animate: animateDance,
+                child: Bounce(
+                    animate: animate,
+                    child: Tile(
+                      index: index,
+                    )),
+              );
             },
           );
         });

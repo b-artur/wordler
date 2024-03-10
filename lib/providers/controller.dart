@@ -4,7 +4,7 @@ import 'package:wordle/data/keys_map.dart';
 import 'package:wordle/models/tile_model.dart';
 
 class Controller extends ChangeNotifier {
-  bool checkLine = false, isBackOrEnter = false;
+  bool checkLine = false, isBackOrEnter = false, gameWon = false;
 
   String correctWord = '';
   int currentTile = 0, currentRow = 0;
@@ -50,6 +50,7 @@ class Controller extends ChangeNotifier {
         tilesEntered[i].answerStage = AnswerStage.correct;
         keysMap.update(tilesEntered[i].letter, (value) => AnswerStage.correct);
       }
+      gameWon = true;
     } else {
       for (int i = 0; i < 5; i++) {
         if (guessedWord[i] == correctWord[i]) {
@@ -89,7 +90,6 @@ class Controller extends ChangeNotifier {
             tilesEntered[i].letter, (value) => AnswerStage.incorrect);
       }
     }
-
     currentRow++;
     checkLine = true;
     notifyListeners();
