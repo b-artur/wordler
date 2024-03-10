@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordle/components/stats_tile.dart';
 
 class StatsBox extends StatefulWidget {
   const StatsBox({super.key});
@@ -18,11 +19,32 @@ class _StatsBoxState extends State<StatsBox> {
               alignment: Alignment.centerRight,
               onPressed: () {},
               icon: Icon(Icons.clear)),
-          Expanded(
+          const Expanded(
               child: Text(
             'STATISTICS',
             textAlign: TextAlign.center,
-          ))
+          )),
+          const Expanded(
+              child: Row(
+            children: [
+              StatsTile(
+                heading: 'Played',
+                value: 50,
+              ),
+              StatsTile(
+                heading: 'Win %',
+                value: 90,
+              ),
+              StatsTile(
+                heading: 'Current\nStreak',
+                value: 12,
+              ),
+              StatsTile(
+                heading: 'Max\nStreak',
+                value: 15,
+              ),
+            ],
+          )),
         ],
       ),
     );
