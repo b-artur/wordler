@@ -5,8 +5,8 @@ import 'package:wordle/models/chart_model.dart';
 Future<List<charts.Series<ChartModel, String>>> getSeries() async {
   List<ChartModel> data = [];
   final prefs = await SharedPreferences.getInstance();
-  final scores = await prefs.getStringList('chart');
-  final row = await prefs.getInt('row');
+  final scores = prefs.getStringList('chart');
+  final row = prefs.getInt('row');
 
   if (scores != null) {
     for (var e in scores) {

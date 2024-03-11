@@ -25,13 +25,13 @@ class _DanceState extends State<Dance> with SingleTickerProviderStateMixin {
         duration: const Duration(milliseconds: 1000), vsync: this);
     _animation = TweenSequence<Offset>([
       TweenSequenceItem(
-          tween: Tween(begin: Offset(0, 0), end: Offset(0, -0.80)), weight: 15),
+          tween: Tween(begin: const Offset(0, 0), end: const Offset(0, -0.80)), weight: 15),
       TweenSequenceItem(
-          tween: Tween(begin: Offset(0, -0.80), end: Offset(0, 0)), weight: 10),
+          tween: Tween(begin: const Offset(0, -0.80), end: const Offset(0, 0)), weight: 10),
       TweenSequenceItem(
-          tween: Tween(begin: Offset(0, 0), end: Offset(0, -0.30)), weight: 12),
+          tween: Tween(begin: const Offset(0, 0), end: const Offset(0, -0.30)), weight: 12),
       TweenSequenceItem(
-          tween: Tween(begin: Offset(0, -0.30), end: Offset(0, 0)), weight: 8),
+          tween: Tween(begin: const Offset(0, -0.30), end: const Offset(0, 0)), weight: 8),
     ]).animate(
         CurvedAnimation(parent: _controller, curve: Curves.easeInOutSine));
     super.initState();
@@ -47,7 +47,9 @@ class _DanceState extends State<Dance> with SingleTickerProviderStateMixin {
   void didUpdateWidget(covariant Dance oldWidget) {
     if (widget.animate) {
       Future.delayed(Duration(milliseconds: widget.delay), () {
-        _controller.forward();
+        if(mounted) {
+          _controller.forward();
+        }
       });
     }
     super.didUpdateWidget(oldWidget);

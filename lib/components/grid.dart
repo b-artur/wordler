@@ -14,8 +14,8 @@ class Grid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.fromLTRB(36, 20, 36, 20),
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.fromLTRB(36, 20, 36, 20),
         itemCount: 30,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           mainAxisSpacing: 4,
@@ -29,7 +29,7 @@ class Grid extends StatelessWidget {
               bool animateDance = false;
               int danceDelay = 1600;
               if (index == notifier.currentTile - 1 &&
-                  !notifier.isBackOrEnter) {
+                  !notifier.backOrEnterTapped) {
                 animate = true;
               }
               if (notifier.gameWon) {

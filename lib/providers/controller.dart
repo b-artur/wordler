@@ -7,10 +7,10 @@ import 'package:wordle/utils/calculate_stats.dart';
 
 class Controller extends ChangeNotifier {
   bool checkLine = false,
-      isBackOrEnter = false,
+      backOrEnterTapped = false,
       gameWon = false,
-      gameCompleted = false;
-
+      gameCompleted = false,
+      notEnoughLetters = false;
   String correctWord = '';
   int currentTile = 0, currentRow = 0;
   List<TileModel> tilesEntered = [];
@@ -19,22 +19,27 @@ class Controller extends ChangeNotifier {
 
   setKeyTapped({required String value}) {
     if (value == 'ENTER') {
+      backOrEnterTapped = true;
       if (currentTile == 5 * (currentRow + 1)) {
-        isBackOrEnter = true;
         checkWord();
+      }else {
+        notEnoughLetters = true;
+
       }
     } else if (value == 'BACK') {
+      backOrEnterTapped = true;
+      notEnoughLetters = false;
       if (currentTile > 5 * (currentRow + 1) - 5) {
         currentTile--;
         tilesEntered.removeLast();
-        isBackOrEnter = true;
       }
     } else {
+      backOrEnterTapped = false;
+      notEnoughLetters = false;
       if (currentTile < 5 * (currentRow + 1)) {
         tilesEntered.add(
             TileModel(letter: value, answerStage: AnswerStage.notAnswered));
         currentTile++;
-        isBackOrEnter = false;
       }
     }
     notifyListeners();
@@ -86,14 +91,16 @@ class Controller extends ChangeNotifier {
           }
         }
       }
-
-      print('word not guessed');
     }
     for (int i = currentRow * 5; i < (currentRow * 5) + 5; i++) {
       if (tilesEntered[i].answerStage == AnswerStage.notAnswered) {
         tilesEntered[i].answerStage = AnswerStage.incorrect;
-        keysMap.update(
-            tilesEntered[i].letter, (value) => AnswerStage.incorrect);
+        final results =
+            keysMap.entries.where((element) => element.key == tilesEntered[i].letter);
+        if (results.single.value == AnswerStage.notAnswered) {
+          keysMap.update(
+              tilesEntered[i].letter, (value) => AnswerStage.incorrect);
+        }
       }
     }
     currentRow++;
@@ -109,7 +116,6 @@ class Controller extends ChangeNotifier {
         setChartStats(currentRow: currentRow);
       }
     }
-
     notifyListeners();
   }
 }

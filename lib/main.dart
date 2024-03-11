@@ -25,10 +25,8 @@ class MyApp extends StatelessWidget {
         initialData: false,
         future: ThemePreferences.getTheme(),
         builder: (context, snapshot) {
-          print(snapshot);
           if (snapshot.hasData) {
-            WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-              print('snapshot data ${snapshot.data}');
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
               Provider.of<ThemeProvider>(context, listen: false)
                   .setTheme(turnOn: snapshot.data as bool);
             });

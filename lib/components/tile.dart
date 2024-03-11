@@ -24,12 +24,11 @@ class _TileState extends State<Tile> with SingleTickerProviderStateMixin {
   Color _backgroundColor = Colors.transparent,
       _borderColor = Colors.transparent;
   late AnswerStage _answerStage;
-  bool _animate = false;
 
   @override
   void initState() {
     _animationController =
-        AnimationController(duration: Duration(milliseconds: 500), vsync: this);
+        AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
     super.initState();
   }
 
@@ -58,8 +57,10 @@ class _TileState extends State<Tile> with SingleTickerProviderStateMixin {
         if (notifier.checkLine) {
           final delay = widget.index - (notifier.currentRow - 1) * 5;
           Future.delayed(Duration(milliseconds: 300 * delay), () {
-            _animationController.forward();
-            notifier.checkLine = false;
+            if(mounted) {
+              _animationController.forward();
+              notifier.checkLine = false;
+            }
           });
 
           _backgroundColor = Theme.of(context).primaryColorLight;
@@ -75,7 +76,7 @@ class _TileState extends State<Tile> with SingleTickerProviderStateMixin {
             _backgroundColor = Theme.of(context).primaryColorDark;
           } else {
             fontColor =
-                Theme.of(context).textTheme.bodyText2?.color ?? Colors.black;
+                Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black;
             _backgroundColor = Colors.transparent;
           }
         }
@@ -106,7 +107,7 @@ class _TileState extends State<Tile> with SingleTickerProviderStateMixin {
                         child: flip > 0
                             ? Text(
                                 text,
-                                style: TextStyle().copyWith(
+                                style: const TextStyle().copyWith(
                                   color: fontColor,
                                 ),
                               )

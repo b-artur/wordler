@@ -18,7 +18,7 @@ final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
     brightness: Brightness.light,
     textTheme: const TextTheme().copyWith(
-        bodyText2: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black)
+        bodyMedium: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black)
     )
 );
 
@@ -37,6 +37,6 @@ final ThemeData darkTheme = ThemeData(
     dividerColor: darkThemeLightShade,
     brightness: Brightness.dark,
     textTheme: const TextTheme().copyWith(
-        bodyText2: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)
+        bodyMedium: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)
     )
 );

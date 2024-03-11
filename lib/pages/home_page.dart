@@ -6,6 +6,7 @@ import 'package:wordle/components/stats_box.dart';
 import 'package:wordle/constants/words.dart';
 import 'package:wordle/pages/settings.dart';
 import 'package:wordle/providers/controller.dart';
+import 'package:wordle/utils/quick_box.dart';
 
 import '../components/grid.dart';
 import '../components/keyboard_row.dart';
@@ -42,45 +43,71 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         elevation: 0,
         actions: [
-          IconButton(
-              onPressed: () {
-                showDialog(context: context, builder: (_) => StatsBox());
-              },
-              icon: Icon(Icons.bar_chart_outlined)),
+          Consumer<Controller>(
+            builder: (_, notifier, __) {
+              if (notifier.notEnoughLetters) {
+                runQuickBox(context: context, message: 'Nor Enough Letters');
+              }
+              if (notifier.gameCompleted) {
+                if (notifier.gameWon) {
+                  if (notifier.currentRow == 6) {
+                    runQuickBox(context: context, message: 'Phew!');
+                  } else {
+                    runQuickBox(context: context, message: 'Splendid!');
+                  }
+                } else {
+                  runQuickBox(context: context, message: notifier.correctWord);
+                }
+                Future.delayed(const Duration(milliseconds: 4000), () {
+                  if (mounted) {
+                    showDialog(
+                        context: context, builder: (_) => const StatsBox());
+                  }
+                });
+              }
+              return IconButton(
+                  onPressed: () async {
+                    showDialog(
+                        context: context, builder: (_) => const StatsBox());
+                  },
+                  icon: const Icon(Icons.bar_chart_outlined));
+            },
+          ),
           IconButton(
               onPressed: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Settings()));
+                    .push(MaterialPageRoute(builder: (context) => const Settings()));
                 // Provider.of<ThemeProvider>(context, listen: false).setTheme();
               },
               icon: const Icon(Icons.settings))
         ],
       ),
-      body: Column(
+      body: const Column(
         children: [
-          const Divider(
+          Divider(
             height: 1,
             thickness: 2,
           ),
-          const Expanded(flex: 7, child: Grid()),
+          Expanded(flex: 7, child: Grid()),
           Expanded(
-              flex: 4,
-              child: const Column(
-                children: [
-                  KeyboardRow(
-                    min: 1,
-                    max: 10,
-                  ),
-                  KeyboardRow(
-                    min: 11,
-                    max: 19,
-                  ),
-                  KeyboardRow(
-                    min: 20,
-                    max: 29,
-                  ),
-                ],
-              )),
+            flex: 4,
+            child: Column(
+              children: [
+                KeyboardRow(
+                  min: 1,
+                  max: 10,
+                ),
+                KeyboardRow(
+                  min: 11,
+                  max: 19,
+                ),
+                KeyboardRow(
+                  min: 20,
+                  max: 29,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
