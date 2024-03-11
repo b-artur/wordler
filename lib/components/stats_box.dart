@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/components/stats_tile.dart';
+import 'package:wordle/constants/answer_stages.dart';
+import 'package:wordle/data/keys_map.dart';
+import 'package:wordle/main.dart';
 
 class StatsBox extends StatefulWidget {
   const StatsBox({super.key});
@@ -45,6 +48,26 @@ class _StatsBoxState extends State<StatsBox> {
               ),
             ],
           )),
+          Expanded(
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                  ),
+                  onPressed: () {
+                    keysMap.updateAll(
+                        (key, value) => value = AnswerStage.notAnswered);
+
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyApp()),
+                        (route) => false);
+                  },
+                  child: Text(
+                    'Replay',
+                    style: TextStyle(
+                      fontSize: 30,
+                    ),
+                  )))
         ],
       ),
     );
