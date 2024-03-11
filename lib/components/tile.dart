@@ -19,23 +19,24 @@ class Tile extends StatefulWidget {
 }
 
 class _TileState extends State<Tile> with SingleTickerProviderStateMixin {
-
   late AnimationController _animationController;
 
-  Color _backgroundColor = Colors.transparent, _borderColor = Colors.transparent;
+  Color _backgroundColor = Colors.transparent,
+      _borderColor = Colors.transparent;
   late AnswerStage _answerStage;
   bool _animate = false;
-  
-   @override
+
+  @override
   void initState() {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-     _borderColor = Theme.of(context).primaryColorLight;
-    });
-    _animationController = AnimationController(
-        duration: Duration(milliseconds: 500),
-        vsync: this
-    );
+    _animationController =
+        AnimationController(duration: Duration(milliseconds: 500), vsync: this);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _borderColor = Theme.of(context).primaryColorLight;
+    super.didChangeDependencies();
   }
 
   @override
@@ -54,9 +55,9 @@ class _TileState extends State<Tile> with SingleTickerProviderStateMixin {
         text = notifier.tilesEntered[widget.index].letter;
         _answerStage = notifier.tilesEntered[widget.index].answerStage;
 
-        if(notifier.checkLine) {
+        if (notifier.checkLine) {
           final delay = widget.index - (notifier.currentRow - 1) * 5;
-          Future.delayed(Duration(milliseconds: 300 * delay), (){
+          Future.delayed(Duration(milliseconds: 300 * delay), () {
             _animationController.forward();
             notifier.checkLine = false;
           });
@@ -66,7 +67,6 @@ class _TileState extends State<Tile> with SingleTickerProviderStateMixin {
           if (_answerStage == AnswerStage.correct) {
             // _borderColor = Colors.transparent;
             _backgroundColor = correctGreen;
-
           } else if (_answerStage == AnswerStage.contains) {
             // _borderColor = Colors.transparent;
             _backgroundColor = containsYellow;
@@ -74,7 +74,8 @@ class _TileState extends State<Tile> with SingleTickerProviderStateMixin {
             // _borderColor = Colors.transparent;
             _backgroundColor = Theme.of(context).primaryColorDark;
           } else {
-            fontColor = Theme.of(context).textTheme.bodyText2?.color ?? Colors.black;
+            fontColor =
+                Theme.of(context).textTheme.bodyText2?.color ?? Colors.black;
             _backgroundColor = Colors.transparent;
           }
         }
@@ -88,36 +89,39 @@ class _TileState extends State<Tile> with SingleTickerProviderStateMixin {
             }
             return Transform(
               alignment: Alignment.center,
-            transform: Matrix4.identity()
-            ..setEntry(3, 2, 0.003)
-            ..rotateX(_animationController.value * pi)
-              ..rotateX(flip),
-            child: Container(
-                decoration: BoxDecoration(
-                  color: flip > 0 ?_backgroundColor: Colors.transparent,
-                  border: Border.all(
-                    color: flip > 0 ? Colors.transparent : _borderColor,
-                  )
-                ),
-                child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: flip > 0 ? Text(text, style: TextStyle().copyWith(
-                        color: fontColor,
-                      ),) : Text(text),
-                    ))),
-          );
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.003)
+                ..rotateX(_animationController.value * pi)
+                ..rotateX(flip),
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: flip > 0 ? _backgroundColor : Colors.transparent,
+                      border: Border.all(
+                        color: flip > 0 ? Colors.transparent : _borderColor,
+                      )),
+                  child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: flip > 0
+                            ? Text(
+                                text,
+                                style: TextStyle().copyWith(
+                                  color: fontColor,
+                                ),
+                              )
+                            : Text(text),
+                      ))),
+            );
           },
         );
       } else {
-        return  Container(
+        return Container(
           decoration: BoxDecoration(
               color: _backgroundColor,
               border: Border.all(
                 color: _borderColor,
-              )
-          ),
+              )),
         );
       }
     });

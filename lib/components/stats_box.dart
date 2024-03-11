@@ -3,6 +3,7 @@ import 'package:wordle/components/stats_tile.dart';
 import 'package:wordle/constants/answer_stages.dart';
 import 'package:wordle/data/keys_map.dart';
 import 'package:wordle/main.dart';
+import 'package:wordle/utils/calculate_stats.dart';
 
 class StatsBox extends StatefulWidget {
   const StatsBox({super.key});
@@ -20,33 +21,44 @@ class _StatsBoxState extends State<StatsBox> {
         children: [
           IconButton(
               alignment: Alignment.centerRight,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.maybePop(context);
+              },
               icon: Icon(Icons.clear)),
           const Expanded(
               child: Text(
             'STATISTICS',
             textAlign: TextAlign.center,
           )),
-          const Expanded(
-              child: Row(
-            children: [
-              StatsTile(
-                heading: 'Played',
-                value: 50,
-              ),
-              StatsTile(
-                heading: 'Win %',
-                value: 90,
-              ),
-              StatsTile(
-                heading: 'Current\nStreak',
-                value: 12,
-              ),
-              StatsTile(
-                heading: 'Max\nStreak',
-                value: 15,
-              ),
-            ],
+          Expanded(
+              child: FutureBuilder(
+            future: getStats(),
+            builder: (context, snapshot) {
+              List<String> results = ['0', '0', '0', '0', '0'];
+              if (snapshot.hasData) {
+                results = snapshot.data as List<String>;
+              }
+              return Row(
+                children: [
+                  StatsTile(
+                    heading: 'Played',
+                    value: int.parse(results[0]),
+                  ),
+                  StatsTile(
+                    heading: 'Win %',
+                    value: int.parse(results[2]),
+                  ),
+                  StatsTile(
+                    heading: 'Current\nStreak',
+                    value: int.parse(results[3]),
+                  ),
+                  StatsTile(
+                    heading: 'Max\nStreak',
+                    value: int.parse(results[4]),
+                  ),
+                ],
+              );
+            },
           )),
           Expanded(
               child: ElevatedButton(
@@ -62,7 +74,7 @@ class _StatsBoxState extends State<StatsBox> {
                         MaterialPageRoute(builder: (context) => MyApp()),
                         (route) => false);
                   },
-                  child: Text(
+                  child: const Text(
                     'Replay',
                     style: TextStyle(
                       fontSize: 30,

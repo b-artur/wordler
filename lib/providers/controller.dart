@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wordle/calculate_stats.dart';
 import 'package:wordle/constants/answer_stages.dart';
 import 'package:wordle/data/keys_map.dart';
 import 'package:wordle/models/tile_model.dart';
+import 'package:wordle/utils/calculate_stats.dart';
 
 class Controller extends ChangeNotifier {
   bool checkLine = false,

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/providers/theme_provider.dart';
-import 'package:wordle/themes/theme_preferences.dart';
+import 'package:wordle/utils/theme_preferences.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -36,6 +37,21 @@ class Settings extends StatelessWidget {
                     Provider.of<ThemeProvider>(context, listen: false)
                         .setTheme(turnOn: _isSwitched);
                   });
+            },
+          ),
+          ListTile(
+            leading: Text('Reset'),
+            onTap: () async {
+              final prefs = await SharedPreferences.getInstance();
+              prefs.remove('stats');
+              showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        title: Text(
+                          'Statistics Cleared',
+                          textAlign: TextAlign.center,
+                        ),
+                      ));
             },
           )
         ],

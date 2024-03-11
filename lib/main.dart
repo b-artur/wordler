@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wordle/constants/themes.dart';
 import 'package:wordle/providers/controller.dart';
 import 'package:wordle/providers/theme_provider.dart';
-import 'package:wordle/themes/theme_preferences.dart';
-import 'package:wordle/themes/themes.dart';
+import 'package:wordle/utils/theme_preferences.dart';
 
 import 'pages/home_page.dart';
 
