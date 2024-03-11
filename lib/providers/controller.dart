@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wordle/constants/answer_stages.dart';
 import 'package:wordle/data/keys_map.dart';
 import 'package:wordle/models/tile_model.dart';
+import 'package:wordle/utils/calculate_chart_stats.dart';
 import 'package:wordle/utils/calculate_stats.dart';
 
 class Controller extends ChangeNotifier {
@@ -104,6 +105,9 @@ class Controller extends ChangeNotifier {
 
     if (gameCompleted) {
       calculateStats(gameWon: gameWon);
+      if (gameWon) {
+        setChartStats(currentRow: currentRow);
+      }
     }
 
     notifyListeners();

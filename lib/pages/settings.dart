@@ -30,13 +30,15 @@ class Settings extends StatelessWidget {
               _isSwitched = notifier.isDark;
 
               return SwitchListTile(
-                  value: _isSwitched,
-                  onChanged: (value) {
-                    _isSwitched = value;
-                    ThemePreferences.saveTheme(isDark: _isSwitched);
-                    Provider.of<ThemeProvider>(context, listen: false)
-                        .setTheme(turnOn: _isSwitched);
-                  });
+                title: Text('Dark Theme'),
+                value: _isSwitched,
+                onChanged: (value) {
+                  _isSwitched = value;
+                  ThemePreferences.saveTheme(isDark: _isSwitched);
+                  Provider.of<ThemeProvider>(context, listen: false)
+                      .setTheme(turnOn: _isSwitched);
+                },
+              );
             },
           ),
           ListTile(
@@ -44,14 +46,17 @@ class Settings extends StatelessWidget {
             onTap: () async {
               final prefs = await SharedPreferences.getInstance();
               prefs.remove('stats');
+              prefs.remove('chart');
+              prefs.remove('row');
               showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                        title: Text(
-                          'Statistics Cleared',
-                          textAlign: TextAlign.center,
-                        ),
-                      ));
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text(
+                    'Statistics Cleared',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              );
             },
           )
         ],
