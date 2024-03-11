@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:wordle/calculate_stats.dart';
 import 'package:wordle/constants/answer_stages.dart';
 import 'package:wordle/data/keys_map.dart';
 import 'package:wordle/models/tile_model.dart';
 
 class Controller extends ChangeNotifier {
-  bool checkLine = false, isBackOrEnter = false, gameWon = false;
+  bool checkLine = false,
+      isBackOrEnter = false,
+      gameWon = false,
+      gameCompleted = false;
 
   String correctWord = '';
   int currentTile = 0, currentRow = 0;
@@ -51,6 +55,7 @@ class Controller extends ChangeNotifier {
         keysMap.update(tilesEntered[i].letter, (value) => AnswerStage.correct);
       }
       gameWon = true;
+      gameCompleted = true;
     } else {
       for (int i = 0; i < 5; i++) {
         if (guessedWord[i] == correctWord[i]) {
@@ -92,6 +97,15 @@ class Controller extends ChangeNotifier {
     }
     currentRow++;
     checkLine = true;
+
+    if (currentRow == 6) {
+      gameCompleted = true;
+    }
+
+    if (gameCompleted) {
+      calculateStats(gameWon: gameWon);
+    }
+
     notifyListeners();
   }
 }
