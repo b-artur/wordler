@@ -20,7 +20,6 @@ Map<String, AnswerStage> keysMap = {
   'J' : AnswerStage.notAnswered,
   'K' : AnswerStage.notAnswered,
   'L' : AnswerStage.notAnswered,
-  'ENTER' : AnswerStage.notAnswered,
   'Z' : AnswerStage.notAnswered,
   'X' : AnswerStage.notAnswered,
   'C' : AnswerStage.notAnswered,
@@ -29,4 +28,5 @@ Map<String, AnswerStage> keysMap = {
   'N' : AnswerStage.notAnswered,
   'M' : AnswerStage.notAnswered,
   'BACK' : AnswerStage.notAnswered,
+  'SUBMIT' : AnswerStage.notAnswered,
 };

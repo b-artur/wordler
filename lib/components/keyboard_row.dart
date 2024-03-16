@@ -47,16 +47,18 @@ class KeyboardRow extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(6),
                     child: SizedBox(
-                      width: e.key == 'ENTER' || e.key == 'BACK'
+                      width: e.key == 'BACK'
                           ? size.width * 0.13
-                          : size.width * 0.085,
-                      height: size.height * 0.090,
+                          : e.key == 'SUBMIT'
+                              ? size.width * 0.50
+                              : size.width * 0.085,
+                      height: size.height * 0.070,
                       child: Material(
                         color: color,
                         child: InkWell(
                           onTap: () {
                             Provider.of<Controller>(context, listen: false)
-                                .setKeyTapped(value: e.key);
+                                .setKeyTapped(context: context, value: e.key);
                           },
                           child: Center(
                             child: e.key == 'BACK'
@@ -68,6 +70,7 @@ class KeyboardRow extends StatelessWidget {
                                         .bodyMedium
                                         ?.copyWith(
                                           color: keyColor,
+                                          fontSize: 16,
                                         ),
                                   ),
                           ),

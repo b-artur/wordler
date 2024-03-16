@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     final r = Random().nextInt(words.length);
-    _word = words[r];
+    _word = words[r].toUpperCase();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<Controller>(context, listen: false)
@@ -46,17 +46,27 @@ class _HomePageState extends State<HomePage> {
           Consumer<Controller>(
             builder: (_, notifier, __) {
               if (notifier.notEnoughLetters) {
-                runQuickBox(context: context, message: 'Nor Enough Letters');
+                runQuickBox(
+                    context: context,
+                    message: 'Nor Enough Letters',
+                    shakeable: false);
               }
               if (notifier.gameCompleted) {
                 if (notifier.gameWon) {
                   if (notifier.currentRow == 6) {
-                    runQuickBox(context: context, message: 'Phew!');
+                    runQuickBox(
+                        context: context, message: 'Phew!', shakeable: false);
                   } else {
-                    runQuickBox(context: context, message: 'Splendid!');
+                    runQuickBox(
+                        context: context,
+                        message: 'Splendid!',
+                        shakeable: false);
                   }
                 } else {
-                  runQuickBox(context: context, message: notifier.correctWord);
+                  runQuickBox(
+                      context: context,
+                      message: notifier.correctWord,
+                      shakeable: false);
                 }
                 Future.delayed(const Duration(milliseconds: 4000), () {
                   if (mounted) {
@@ -75,8 +85,8 @@ class _HomePageState extends State<HomePage> {
           ),
           IconButton(
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => const Settings()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const Settings()));
                 // Provider.of<ThemeProvider>(context, listen: false).setTheme();
               },
               icon: const Icon(Icons.settings))
@@ -103,7 +113,11 @@ class _HomePageState extends State<HomePage> {
                 ),
                 KeyboardRow(
                   min: 20,
-                  max: 29,
+                  max: 27,
+                ),
+                KeyboardRow(
+                  min: 28,
+                  max: 28,
                 ),
               ],
             ),
