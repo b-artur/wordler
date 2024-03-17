@@ -54,7 +54,7 @@ class KeyboardRow extends StatelessWidget {
                               : size.width * 0.085,
                       height: size.height * 0.070,
                       child: Material(
-                        color: color,
+                        color: e.key == 'SUBMIT' ? Colors.green : color,
                         child: InkWell(
                           onTap: () {
                             Provider.of<Controller>(context, listen: false)

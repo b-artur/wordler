@@ -23,12 +23,14 @@ class _StatsBoxState extends State<StatsBox> {
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          IconButton(
-              alignment: Alignment.centerRight,
-              onPressed: () {
-                Navigator.maybePop(context);
-              },
-              icon: const Icon(Icons.clear)),
+          Align(
+            alignment: AlignmentDirectional.topEnd,
+            child: IconButton(
+                onPressed: () {
+                  Navigator.maybePop(context);
+                },
+                icon: const Icon(Icons.clear)),
+          ),
           const Expanded(
             child: Text(
               'STATISTICS',
@@ -76,6 +78,9 @@ class _StatsBoxState extends State<StatsBox> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
               ),
               onPressed: () {
                 keysMap
@@ -90,6 +95,7 @@ class _StatsBoxState extends State<StatsBox> {
                 'Replay',
                 style: TextStyle(
                   fontSize: 30,
+                  color: Colors.white,
                 ),
               ),
             ),

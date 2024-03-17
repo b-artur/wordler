@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wordle/providers/theme_provider.dart';
+import 'package:wordle/utils/get_version_info.dart';
 import 'package:wordle/utils/quick_box.dart';
 import 'package:wordle/utils/theme_preferences.dart';
 
@@ -54,6 +55,24 @@ class Settings extends StatelessWidget {
                   message: 'Statistics Reset',
                   shakeable: false);
             },
+          ),
+          Expanded(
+            child: Align(
+              alignment: AlignmentDirectional.bottomStart,
+              child: ListTile(
+                textColor: Colors.grey,
+                title: FutureBuilder(
+                  future: getVersionNumber(),
+                  builder: (context, snapshot) {
+                    String version = '';
+                    if (snapshot.hasData) {
+                      version = snapshot.data as String;
+                    }
+                    return Text('Current app version: $version');
+                  },
+                ),
+              ),
+            ),
           )
         ],
       ),
